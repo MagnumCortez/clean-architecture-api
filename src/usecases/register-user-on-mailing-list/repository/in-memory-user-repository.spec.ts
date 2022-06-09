@@ -7,4 +7,13 @@ describe('In memory user repository', () => {
     const user = await sut.findUserByEmail('nobody@email.com')
     expect(user).toBeNull()
   })
+
+  test('should return user if it is found in the repository', async () => {
+    const name = 'any_name'
+    const email = 'any@email.com'
+    const sut = await new InMemoryUserRepository()
+    await sut.add({ name, email })
+    const user = await sut.findUserByEmail(email)
+    expect(user.name).toBe(name)
+  })
 })
