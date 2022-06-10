@@ -1,5 +1,3 @@
-import { InvalidEmailError, InvalidNameError } from '../../entities/errors'
-import { left } from '../../shared/either'
 import { UserRepository } from './ports/user-repository'
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
 import { InMemoryUserRepository } from './repository/in-memory-user-repository'
@@ -21,10 +19,10 @@ describe('Register user on mailing list use case', () => {
     const usecase: RegisterUserOnMailingList = new RegisterUserOnMailingList(repo)
     const name = 'any_name'
     const invalidEmail = 'invalid.mail.com'
-    const response = await usecase.perform({ name, email: invalidEmail })
+    const response = await (await usecase.perform({ name, email: invalidEmail })).value as Error
     const users = await repo.findAllUsers()
     expect(users).toEqual([])
-    expect(response).toEqual(left(new InvalidEmailError(invalidEmail)))
+    expect(response.name).toEqual('InvalidEmailError')
   })
 
   test('should not add user with invalid name to mailing list', async () => {
@@ -32,9 +30,9 @@ describe('Register user on mailing list use case', () => {
     const usecase: RegisterUserOnMailingList = new RegisterUserOnMailingList(repo)
     const invalidName = ''
     const email = 'any@mail.com'
-    const response = await usecase.perform({ name: invalidName, email })
+    const response = await (await usecase.perform({ name: invalidName, email })).value as Error
     const users = await repo.findAllUsers()
     expect(users).toEqual([])
-    expect(response).toEqual(left(new InvalidNameError(invalidName)))
+    expect(response.name).toEqual('InvalidNameError')
   })
 })
