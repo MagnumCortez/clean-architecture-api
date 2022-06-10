@@ -1,4 +1,4 @@
-import { InMemoryUserRepository } from './'
+import { InMemoryUserRepository } from '@test/usecases/register-user-on-mailing-list/repository'
 
 describe('In memory user repository', () => {
   test('should return null if user is not found', async () => {
