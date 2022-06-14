@@ -4,7 +4,7 @@ import { UserRepository } from '@/usecases/register-user-on-mailing-list/ports'
 import { RegisterUserController } from '@/web-controllers'
 import { InvalidEmailError, InvalidNameError } from '@/entities/errors'
 import { MissingParamError } from '@/web-controllers/errors/missing-param-error'
-import { InMemoryUserRepository } from '@test/usecases/register-user-on-mailing-list/repository'
+import { InMemoryUserRepository } from '@/usecases/repository'
 import { UseCase } from '@/usecases/ports'
 
 describe('Register user web controller', () => {
